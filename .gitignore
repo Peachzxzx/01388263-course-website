@@ -23,4 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /src/com.json
+/src/ethics_img.json
 .gitignore
+src/components/Header.js
+src/pages/Ngan.js

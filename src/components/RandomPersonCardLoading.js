@@ -7,10 +7,8 @@ import Typography from "@material-ui/core/Typography";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import IconButton from "@material-ui/core/IconButton";
-import clsx from "clsx";
-import Collapse from "@material-ui/core/Collapse";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { Grid, TextareaAutosize } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		minWidth: 250,
@@ -34,8 +32,9 @@ const useStyles = makeStyles((theme) => ({
 	expandIcon: { [theme.breakpoints.down(480)]: { paddingRight: 200 }, padding: 0 },
 	grid: { paddingBottom: 0 },
 }));
-
+let count = 0;
 const LoadingCard = () => {
+	count++;
 	const classes = useStyles();
 	const theme = useTheme();
 	return (
@@ -79,4 +78,6 @@ const LoadingCard = () => {
 		</Card>
 	);
 };
-export default React.memo(LoadingCard);
+export default React.memo(LoadingCard, () => {
+	return count > 0;
+});

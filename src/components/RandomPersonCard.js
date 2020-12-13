@@ -10,7 +10,8 @@ import clsx from "clsx";
 import Collapse from "@material-ui/core/Collapse";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { Grid } from "@material-ui/core";
-
+import Imgs from "../ethics_img.json";
+import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
 	root: {
 		minWidth: 250,
@@ -34,12 +35,28 @@ const useStyles = makeStyles((theme) => ({
 	expandIcon: { [theme.breakpoints.down(480)]: { paddingRight: 200 }, padding: 0 },
 	grid: { paddingBottom: 0 },
 }));
+
+const Image = ({ data }) => (
+	<img src={`data:image/jpeg;base64,${data}`} style={{ maxWidth: "125px", height: "auto" }} />
+);
+
 const Detail = React.memo(
 	({ Person }) => {
-		console.log("Re-render Detail");
 		const classes = useStyles();
+		const [expanded, setExpanded] = useState(false);
+		const onEventHandler = () => setExpanded((prev) => !prev);
 		return (
 			<CardContent>
+				{Imgs[Person.studentCode] !== "" && (
+					<div>
+						<Collapse in={expanded} timeout="auto" unmountOnExit>
+							<Image data={Imgs[Person.studentCode]} />
+						</Collapse>
+						<Button variant="contained" color="secondary" size="large" onClick={onEventHandler}>
+							Image
+						</Button>
+					</div>
+				)}
 				<Typography>คณะ: {Person.facultyNameTh}</Typography>
 				<Typography className={classes.pos} color="textSecondary">
 					Faculty: {Person.facultyNameEn}
@@ -62,7 +79,6 @@ const Detail = React.memo(
 
 const MainDetail = React.memo(
 	({ Person }) => {
-		console.log("Re-render MainDetail");
 		const classes = useStyles();
 		const theme = useTheme();
 		return (
@@ -128,10 +144,10 @@ const IconExpandedPart = ({ handleExpandClick, expanded }) => {
 	);
 };
 
-const ExpandedPart = ({ Person, expanded }) => {
+const ExpandedPart = ({ Person, expanded, Img }) => {
 	return (
 		<Collapse in={expanded} timeout="auto" unmountOnExit>
-			<Detail Person={Person} />
+			<Detail Person={Person} img={Img} />
 		</Collapse>
 	);
 };
@@ -142,11 +158,6 @@ const PersonCard = React.memo(
 		const handleExpandClick = () => {
 			setExpanded(!expanded);
 		};
-		console.log("Re-render SimpleCard");
-		// function st() {
-		// 	if (expanded === true) return { paddingBottom: 0, marginBottom: "0px" };
-		// 	return { paddingBottom: 0, marginBottom: "24px" };
-		// }
 		return (
 			<Card className={classes.root}>
 				<CardContent style={{ paddingBottom: 0, marginBottom: "24px" }}>

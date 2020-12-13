@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 }));
-
+let timeout = "";
 const SearchBar = ({ onEventHandler }) => {
 	const classes = useStyles();
 	const handleChange = useCallback(
@@ -65,7 +65,11 @@ const SearchBar = ({ onEventHandler }) => {
 				}}
 				style={{ width: "100%" }}
 				inputProps={{ "aria-label": "search" }}
-				onChange={(event) => handleChange(event.target.value)}
+				onChange={function (event) {
+                    let text = event.target.value;
+                    clearTimeout(timeout);
+					timeout = setTimeout(() => handleChange(text), 500);
+				}}
 			/>
 		</div>
 	);
